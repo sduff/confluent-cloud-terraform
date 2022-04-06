@@ -12,6 +12,9 @@ terraform {
 provider "confluentcloud" {}
 
 # The environment we use is stored in Terraform Cloud Variables
+variable "CONFLUENT_CLOUD_ENVIRONMENT_ID" {
+     type = string
+}
 data "confluentcloud_environment" "shared-env" {
    id = "${var.CONFLUENT_CLOUD_ENVIRONMENT_ID}"
 }
