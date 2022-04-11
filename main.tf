@@ -28,3 +28,17 @@ resource "confluentcloud_kafka_cluster" "basic-cluster" {
       id = data.confluentcloud_environment.shared-env.id
    }
 }
+
+
+# BUG - create a cluster outside of allowed regions
+resource "confluentcloud_kafka_cluster" "banned-cluster" {
+   display_name = "banned_cluster"
+   availability = "SINGLE_ZONE"
+   cloud        = "AWS"
+   region       = "eu-central-1"
+   basic {}
+
+   environment {
+      id = data.confluentcloud_environment.shared-env.id
+   }
+}
