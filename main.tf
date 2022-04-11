@@ -31,8 +31,8 @@ resource "confluentcloud_kafka_cluster" "basic-cluster" {
 
 
 # BUG - create a cluster outside of allowed regions
-resource "confluentcloud_kafka_cluster" "basic-cluster" {
-   display_name = "sduff_basic_kafka_cluster"
+resource "confluentcloud_kafka_cluster" "banned-cluster" {
+   display_name = "banned_cluster"
    availability = "SINGLE_ZONE"
    cloud        = "AWS"
    region       = "eu-central-1"
