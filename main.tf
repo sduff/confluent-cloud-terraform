@@ -48,7 +48,7 @@ resource "confluentcloud_kafka_cluster" "banned-geo-cluster" {
    display_name = "banned_geo_cluster"
    availability = "SINGLE_ZONE"
    cloud        = "GCP"
-   region       = "australia-southeast1-a"
+   region       = "australia-southeast1"
    basic {}
 
    environment {
