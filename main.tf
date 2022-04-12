@@ -21,7 +21,7 @@ resource "confluentcloud_kafka_cluster" "my_cluster" {
    availability = "SINGLE_ZONE"
    cloud        = "AWS"
    region       = "ap-southeast-2"
-   basic = {}
+   basic {}
 
    environment {
       id = data.confluentcloud_environment.shared-env.id
