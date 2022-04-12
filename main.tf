@@ -45,6 +45,7 @@ resource "confluentcloud_role_binding" "example-rb" {
 
 # CREATE API KEY MANUALLY
 
+# Topic
 resource "confluentcloud_kafka_topic" "test_topic" {
   kafka_cluster      = confluentcloud_kafka_cluster.mz_cluster.id
   topic_name         = "orders"
@@ -61,6 +62,7 @@ resource "confluentcloud_kafka_topic" "test_topic" {
   }
 }
 
+# ACL
 resource "confluentcloud_kafka_acl" "describe-basic-cluster" {
   kafka_cluster = confluentcloud_kafka_cluster.mz_cluster.id
   resource_type = "CLUSTER"
