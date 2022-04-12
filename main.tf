@@ -44,15 +44,15 @@ resource "confluentcloud_kafka_cluster" "basic-cluster" {
 #   }
 #}
 #
-## BUG - create a cluster outside of allowed clouds
-#resource "confluentcloud_kafka_cluster" "banned-geo-cluster" {
-#   display_name = "banned_geo_cluster"
-#   availability = "SINGLE_ZONE"
-#   cloud        = "GCP"
-#   region       = "australia-southeast1"
-#   basic {}
-#
-#   environment {
-#      id = data.confluentcloud_environment.shared-env.id
-#   }
-#}
+# BUG - create a cluster outside of allowed clouds
+resource "confluentcloud_kafka_cluster" "banned-geo-cluster" {
+   display_name = "banned_geo_cluster"
+   availability = "SINGLE_ZONE"
+   cloud        = "GCP"
+   region       = "australia-southeast1"
+   basic {}
+
+   environment {
+      id = data.confluentcloud_environment.shared-env.id
+   }
+}
