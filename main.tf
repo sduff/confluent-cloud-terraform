@@ -43,4 +43,36 @@ resource "confluentcloud_role_binding" "example-rb" {
   crn_pattern = confluentcloud_kafka_cluster.mz_cluster.rbac_crn
 }
 
+# CREATE API KEY MANUALLY
 
+resource "confluentcloud_kafka_topic" "test_topic" {
+  kafka_cluster      = confluentcloud_kafka_cluster.mz_cluster.id
+  topic_name         = "orders"
+  partitions_count   = 4
+  http_endpoint      = confluentcloud_kafka_cluster.mz_cluster.http_endpoint
+  config = {
+    "cleanup.policy"    = "compact"
+    "max.message.bytes" = "12345"
+    "retention.ms"      = "67890"
+  }
+  credentials {
+    key    = "${var.KAFKA_API_KEY}"
+    secret = "${var.KAFKA_API_SECRET}"
+  }
+}
+
+resource "confluentcloud_kafka_acl" "describe-basic-cluster" {
+  kafka_cluster = confluentcloud_kafka_cluster.mz_cluster.id
+  resource_type = "CLUSTER"
+  resource_name = "kafka-cluster"
+  pattern_type  = "LITERAL"
+  principal     = "User:sa-yovo3j"
+  host          = "*"
+  operation     = "DESCRIBE"
+  permission    = "ALLOW"
+  http_endpoint = confluentcloud_kafka_cluster.mz_cluster.http_endpoint
+  credentials {
+    key    = "${var.KAFKA_API_KEY}"
+    secret = "${var.KAFKA_API_SECRET}"
+  }
+}
