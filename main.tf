@@ -16,14 +16,12 @@ data "confluentcloud_environment" "shared-env" {
    id = "${var.CONFLUENT_CLOUD_ENVIRONMENT_ID}"
 }
 
-resource "confluentcloud_kafka_cluster" "mz_cluster" {
-   display_name = "sduff_dedicated_multizone"
-   availability = "MULTI_ZONE"
+resource "confluentcloud_kafka_cluster" "my_cluster" {
+   display_name = "sduff_basic_cluster"
+   availability = "SINGLE_ZONE"
    cloud        = "AWS"
    region       = "ap-southeast-2"
-   dedicated {
-     cku = 2
-   }
+   basic {}
 
    environment {
       id = data.confluentcloud_environment.shared-env.id
@@ -40,17 +38,17 @@ resource "confluentcloud_service_account" "svc_account" {
 resource "confluentcloud_role_binding" "example-rb" {
   principal = "User:${confluentcloud_service_account.svc_account.id}"
   role_name  = "CloudClusterAdmin"
-  crn_pattern = confluentcloud_kafka_cluster.mz_cluster.rbac_crn
+  crn_pattern = confluentcloud_kafka_cluster.my_cluster.rbac_crn
 }
 
 # CREATE API KEY MANUALLY
 
 # Topic
 resource "confluentcloud_kafka_topic" "test_topic" {
-  kafka_cluster      = confluentcloud_kafka_cluster.mz_cluster.id
+  kafka_cluster      = confluentcloud_kafka_cluster.my_cluster.id
   topic_name         = "orders"
   partitions_count   = 6
-  http_endpoint      = confluentcloud_kafka_cluster.mz_cluster.http_endpoint
+  http_endpoint      = confluentcloud_kafka_cluster.my_cluster.http_endpoint
   config = { }
   credentials {
     key    = "${var.KAFKA_API_KEY}"
