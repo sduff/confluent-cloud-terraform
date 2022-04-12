@@ -58,7 +58,7 @@ resource "confluentcloud_kafka_topic" "test_topic" {
 
 ## ACL
 resource "confluentcloud_kafka_acl" "describe-basic-cluster" {
-  kafka_cluster = confluentcloud_kafka_cluster.mz_cluster.id
+  kafka_cluster = confluentcloud_kafka_cluster.my_cluster.id
   resource_type = "CLUSTER"
   resource_name = "kafka-cluster"
   pattern_type  = "LITERAL"
@@ -66,7 +66,7 @@ resource "confluentcloud_kafka_acl" "describe-basic-cluster" {
   host          = "*"
   operation     = "DESCRIBE"
   permission    = "ALLOW"
-  http_endpoint = confluentcloud_kafka_cluster.mz_cluster.http_endpoint
+  http_endpoint = confluentcloud_kafka_cluster.my_cluster.http_endpoint
   credentials {
     key    = "${var.KAFKA_API_KEY}"
     secret = "${var.KAFKA_API_SECRET}"
