@@ -49,13 +49,9 @@ resource "confluentcloud_role_binding" "example-rb" {
 resource "confluentcloud_kafka_topic" "test_topic" {
   kafka_cluster      = confluentcloud_kafka_cluster.mz_cluster.id
   topic_name         = "orders"
-  partitions_count   = 4
+  partitions_count   = 6
   http_endpoint      = confluentcloud_kafka_cluster.mz_cluster.http_endpoint
-  config = {
-    "cleanup.policy"    = "compact"
-    "max.message.bytes" = "12345"
-    "retention.ms"      = "67890"
-  }
+  config = { }
   credentials {
     key    = "${var.KAFKA_API_KEY}"
     secret = "${var.KAFKA_API_SECRET}"
