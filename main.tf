@@ -32,6 +32,21 @@ resource "confluentcloud_kafka_cluster" "my_cluster" {
    }
 }
 
+resource "confluentcloud_kafka_cluster" "ded2" {
+   display_name = "sduff_ded2"
+   availability = "SINGLE_ZONE"
+   cloud        = "AWS"
+   region       = "ap-southeast-2"
+   dedicated {
+     cku = 4
+   }
+
+   environment {
+      id = data.confluentcloud_environment.shared-env.id
+   }
+}
+
+
 # Create a Service Account
 resource "confluentcloud_service_account" "svc_account" {
   display_name = "sduff_tf_svc_acct"
@@ -53,7 +68,11 @@ resource "confluentcloud_kafka_topic" "test_topic" {
   topic_name         = "orders"
   partitions_count   = 6
   http_endpoint      = confluentcloud_kafka_cluster.my_cluster.http_endpoint
-  config = { }
+  config = { 
+    "cleanup.policy"    = "compact"
+    "max.message.bytes" = "12345"
+    "retention.ms"      = "67890"
+  }
   credentials {
     key    = "${var.KAFKA_API_KEY}"
     secret = "${var.KAFKA_API_SECRET}"
