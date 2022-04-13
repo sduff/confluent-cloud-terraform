@@ -16,6 +16,10 @@ data "confluentcloud_environment" "shared-env" {
    id = "${var.CONFLUENT_CLOUD_ENVIRONMENT_ID}"
 }
 
+resource "confluentcloud_environment" "new-env" {
+  display_name = "a-new-environment"
+}
+
 resource "confluentcloud_kafka_cluster" "my_cluster" {
    display_name = "sduff_basic_cluster"
    availability = "SINGLE_ZONE"
